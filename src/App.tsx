@@ -1,57 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { ThemeProvider, createTheme } from '@mui/material/styles'
+import { useDarkMode } from "./features/theme/useDarkMode"
+import { lightTheme, darkTheme } from "./features/theme/themes"
+import Toggle from "./features/theme/Toggler"
 import './App.css';
+import { CssBaseline } from '@mui/material';
+import { Pokedex } from './features/components/Pokedex';
+
 
 function App() {
+  const [theme, themeToggler] = useDarkMode();
+
+  const themeMode = theme === 'light' ? lightTheme : darkTheme;
+  const themeProp = createTheme(themeMode)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <ThemeProvider theme={themeProp}>
+      <CssBaseline />
+      <>
+        <div className="App">
+          <header className="App-header">
+            <div className='Toggle'>
+              <Toggle theme={theme} toggleTheme={themeToggler} />
+            </div>
+          </header>
+          <div className="App-div">
+            <Pokedex />
+          </div>
+        </div>
+      </>
+    </ThemeProvider >
   );
 }
 
