@@ -1,0 +1,46 @@
+.pokedex{
+    display: flex;
+    justify-content: center;
+    height: 95vh;
+    width: 100%;
+}
+
+.sidebar{
+    margin-left: 2%;
+    margin-right: 2%;
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+}
+
+.display{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.filters{
+    height: 10%;
+    width: 100%;
+    padding-bottom: 5%;
+}
+
+.name{
+    margin-left: 5%;
+    width: auto;
+}
+
+.types{
+    margin-left: 10%;
+    margin-right: 10%;
+    flex-grow: 1;
+}
+
+.filterButton{
+    margin-right: 5%;
+    flex-grow: 1;
+}
+
+.list{
+    border-width: 1px;
+    border-style: solid;
+}
