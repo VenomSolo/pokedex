@@ -7,7 +7,6 @@ import './App.css';
 import { CssBaseline } from '@mui/material';
 import { Pokedex } from './features/components/Pokedex';
 
-
 function App() {
   const [theme, themeToggler] = useDarkMode();
 
@@ -24,7 +23,7 @@ function App() {
               <Toggle theme={theme} toggleTheme={themeToggler} />
             </div>
           </header>
-          <div className="App-div">
+          <div>
             <Pokedex />
           </div>
         </div>

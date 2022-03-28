@@ -4,10 +4,14 @@ import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectFilters } from './filtersSlice';
 import { fetchListAsync, filterPokemon, pickPokemon, selectFiltered, selectOffset, toggleHidden } from './pokemonSlice';
+import { listStyle } from './PokemonList.styles';
+import { getTypes } from './PokemonList.styles';
 
 export function Tiles() {
 
 }
+
+
 
 export function PokemonList() {
   const dispatch = useAppDispatch();
@@ -18,21 +22,23 @@ export function PokemonList() {
   const [btnPickable, setBtnPickable] = useState(true);
   const time = 300;
 
+  const onClickHandler = async () => {
+    setBtnDisabled(true);
+
+    await dispatch(fetchListAsync(offset))
+    await dispatch(filterPokemon(filters))
+    setBtnDisabled(false)
+  }
+
+
   return (
     <div>
       <Card sx={{ border: '1px solid', borderColor: 'primary.main' }}>
-        <List sx={{
-          width: '100%',
-          bgcolor: 'background.paper',
-          position: 'relative',
-          overflow: 'auto',
-          maxHeight: 'calc(85vh)',
-          '& ul': { padding: 0 },
-        }} color='primary'>
+        <List sx={listStyle} color='primary'>
           {data.map((data) => {
             return (
-              <>
-                <ListItemButton key={data.name} onClick={() => {
+              <React.Fragment key={data.name}>
+                <ListItemButton onClick={() => {
                   if (!btnPickable) return;
                   setBtnPickable(false)
                   dispatch(toggleHidden())
@@ -52,27 +58,22 @@ export function PokemonList() {
                   <div style={{ width: '10%' }}></div>
                   <ListItemText
                     primary={data.name}
-                    secondary={'Types: ' + data.types.toString()}
+                    secondary={getTypes(data.types)}
                   />
                 </ListItemButton>
                 <Divider />
-              </>
+              </React.Fragment>
             );
           })}
-          <>
-            <ListItemButton disabled={btnDisabled} key='More' onClick={() => {
-              setBtnDisabled(true);
-              dispatch(fetchListAsync(offset))
-                .then(() => dispatch(filterPokemon(filters)))
-                .then(() => setBtnDisabled(false))
-            }}>
+          <React.Fragment key={"More"}>
+            <ListItemButton disabled={btnDisabled} key='More' onClick={onClickHandler}>
               <ListItemText
                 primary='More'
                 secondary='Load more pokemons and re-filter'
               />
             </ListItemButton>
             <Divider />
-          </>
+          </React.Fragment>
         </List>
       </Card>
     </div>
